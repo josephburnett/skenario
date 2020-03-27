@@ -77,6 +77,8 @@ type SkenarioRunRequest struct {
 
 	HpaYaml string `json:"hpa_yaml"`
 
+	RequestCpu int64 `json:"request_cpu"`
+
 	UniformConfig    trafficpatterns.UniformConfig    `json:"uniform_config,omitempty"`
 	RampConfig       trafficpatterns.RampConfig       `json:"ramp_config,omitempty"`
 	StepConfig       trafficpatterns.StepConfig       `json:"step_config,omitempty"`
@@ -107,7 +109,7 @@ func RunHandler(w http.ResponseWriter, r *http.Request) {
 	cluster := model.NewCluster(env, clusterConf, replicasConfig)
 
 	model.NewAutoscaler(env, startAt, cluster, kpaConf)
-	trafficSource := model.NewTrafficSource(env, cluster.BufferStock())
+	trafficSource := model.NewTrafficSource(env, cluster.BufferStock(), runReq.RequestCpu)
 
 	var traffic trafficpatterns.Pattern
 	switch runReq.TrafficPattern {

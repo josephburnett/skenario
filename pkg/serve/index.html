@@ -85,6 +85,14 @@
 
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
+                    <label class="label" for="requestCpu">Request Weight (CPU milliseconds)</label>
+                </div>
+                <div class="control">
+                    <input type="number" style="width: 5em" id="requestCpu" value="200" min="1" step="1"/>
+                </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
                     <label for="select-traffic-pattern" class="label">Traffic Pattern</label>
                 </div>
                 <div class="control">
@@ -380,6 +388,7 @@ spec:
         let launchDelay = parseInt(document.querySelector("input[id='launchDelay']").value);
         let terminateDelay = parseInt(document.querySelector("input[id='terminateDelay']").value);
         let tickInterval = parseInt(document.querySelector("input[id='tickInterval']").value);
+        let requestCpu = parseInt(document.querySelector("input[id='requestCpu']").value);
         let hpaYaml = document.querySelector("textarea[id='hpaYaml']").value;
 
         let second = 1000000000;
@@ -388,6 +397,7 @@ spec:
             launch_delay: launchDelay * second,
             terminate_delay: terminateDelay * second,
             tick_interval: tickInterval * second,
+            request_cpu: requestCpu,
             hpa_yaml: hpaYaml,
             traffic_pattern: trafficPattern,
         };

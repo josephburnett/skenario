@@ -73,7 +73,7 @@ func (re *requestEntity) cpuSecondsRemaining() time.Duration {
 	return re.cpuSecondsRequired - re.cpuSecondsConsumed
 }
 
-func NewRequestEntity(env simulator.Environment, buffer RequestsBufferedStock) RequestEntity {
+func NewRequestEntity(env simulator.Environment, buffer RequestsBufferedStock, requestCpu int64) RequestEntity {
 	reqNumber++
 	return &requestEntity{
 		env:         env,
@@ -81,6 +81,6 @@ func NewRequestEntity(env simulator.Environment, buffer RequestsBufferedStock) R
 		bufferStock: buffer,
 		nextBackoff: 100 * time.Millisecond,
 
-		cpuSecondsRequired: 100 * time.Millisecond,
+		cpuSecondsRequired: time.Duration(requestCpu) * time.Millisecond,
 	}
 }
