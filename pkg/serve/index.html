@@ -29,7 +29,7 @@
 <div class="hero is-info is-small">
     <div class="hero-body">
         <div class="container">
-            <h1 class="title">Skenario</h1>
+            <h1 class="title">Skenario for HPA</h1>
         </div>
     </div>
 </div>
@@ -39,7 +39,7 @@
         <form>
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                    <label class="label" for="runFor">Run For (seconds)</label>
+                    <label class="label" for="runFor">Simulation Duration (seconds)</label>
                 </div>
                 <div class="control">
                     <input type="number" style="width: 5em" id="runFor" value="180" min="1"/>
@@ -47,7 +47,7 @@
             </div>
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                    <label class="label" for="launchDelay">Replica Launch Delay (seconds)</label>
+                    <label class="label" for="launchDelay">Pod Launch Delay (seconds)</label>
                 </div>
                 <div class="control">
                     <input type="number" style="width: 5em" id="launchDelay" value="5" min="0.01" step="0.1"/>
@@ -55,7 +55,7 @@
             </div>
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                    <label class="label" for="terminateDelay">Replica Terminate Delay (seconds)</label>
+                    <label class="label" for="terminateDelay">Pod Terminate Delay (seconds)</label>
                 </div>
                 <div class="control">
                     <input type="number" style="width: 5em" id="terminateDelay" value="1" min="0.01" step="0.1"/>
@@ -63,59 +63,10 @@
             </div>
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                    <label class="label" for="tickInterval">Tick Interval (seconds)</label>
+                    <label class="label" for="tickInterval">HPA Resync Period (seconds)</label>
                 </div>
                 <div class="control">
-                    <input type="number" style="width: 5em" id="tickInterval" value="2" min="1" step="1"/>
-                </div>
-            </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label" for="stableWindow">Stable Window (seconds)</label>
-                </div>
-                <div class="control">
-                    <input type="number" style="width: 5em" id="stableWindow" value="60" min="1" step="1"/>
-                </div>
-            </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label" for="panicWindow">Panic Window (seconds)</label>
-                </div>
-                <div class="control">
-                    <input type="number" style="width: 5em" id="panicWindow" value="6" min="1" step="1"/>
-                </div>
-            </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label" for="scaleToZeroGracePeriod">Scale to Zero Grace Period (seconds)</label>
-                </div>
-                <div class="control">
-                    <input type="number" style="width: 5em" id="scaleToZeroGracePeriod" value="30" min="1" step="1"/>
-                </div>
-            </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label" for="targetConcurrency">Target Concurrency</label>
-                </div>
-                <div class="control">
-                    <input type="number" style="width: 5em" id="targetConcurrency" value="100" min="1" step="1"/>
-                </div>
-            </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label" for="replicaMaxRPS">Replica Max RPS Capacity</label>
-                </div>
-                <div class="control">
-                    <input type="number" style="width: 5em" id="replicaMaxRPS" value="101" min="1" step="1"/>
-                </div>
-            </div>
-
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label" for="maxScaleUpRate">Max Scale Up Rate</label>
-                </div>
-                <div class="control">
-                    <input type="number" style="width: 5em" id="maxScaleUpRate" value="100.0" min="1" step="1"/>
+                    <input type="number" style="width: 5em" id="tickInterval" value="15" min="1" step="1"/>
                 </div>
             </div>
 
@@ -395,13 +346,6 @@
         let launchDelay = parseInt(document.querySelector("input[id='launchDelay']").value);
         let terminateDelay = parseInt(document.querySelector("input[id='terminateDelay']").value);
         let tickInterval = parseInt(document.querySelector("input[id='tickInterval']").value);
-        let stableWindow = parseInt(document.querySelector("input[id='stableWindow']").value);
-        let panicWindow = parseInt(document.querySelector("input[id='panicWindow']").value);
-        let scaleToZeroGracePeriod = parseInt(document.querySelector("input[id='scaleToZeroGracePeriod']").value);
-        let targetConcurrency = parseFloat(document.querySelector("input[id='targetConcurrency']").value);
-        let replicaMaxRPS = parseInt(document.querySelector("input[id='replicaMaxRPS']").value);
-        let maxScaleUpRate = parseFloat(document.querySelector("input[id='maxScaleUpRate']").value);
-
 
         let second = 1000000000;
         let skenarioRunRequest = {
@@ -409,13 +353,6 @@
             launch_delay: launchDelay * second,
             terminate_delay: terminateDelay * second,
             tick_interval: tickInterval * second,
-            stable_window: stableWindow * second,
-            panic_window: panicWindow * second,
-            scale_to_zero_grace_period: scaleToZeroGracePeriod * second,
-            target_concurrency: targetConcurrency,
-            replica_max_rps: replicaMaxRPS,
-            max_scale_up_rate: maxScaleUpRate,
-
             traffic_pattern: trafficPattern,
         };
 
