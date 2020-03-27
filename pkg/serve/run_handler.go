@@ -75,6 +75,8 @@ type SkenarioRunRequest struct {
 	ReplicaMaxRPS          int64         `json:"replica_max_rps"`
 	MaxScaleUpRate         float64       `json:"max_scale_up_rate"`
 
+	HpaYaml string `json:"hpa_yaml"`
+
 	UniformConfig    trafficpatterns.UniformConfig    `json:"uniform_config,omitempty"`
 	RampConfig       trafficpatterns.RampConfig       `json:"ramp_config,omitempty"`
 	StepConfig       trafficpatterns.StepConfig       `json:"step_config,omitempty"`
@@ -303,5 +305,6 @@ func buildKpaConfig(srr *SkenarioRunRequest) model.KnativeAutoscalerConfig {
 		ScaleToZeroGracePeriod: srr.ScaleToZeroGracePeriod,
 		TargetConcurrency:      srr.TargetConcurrency,
 		MaxScaleUpRate:         srr.MaxScaleUpRate,
+		HpaYaml:                srr.HpaYaml,
 	}
 }

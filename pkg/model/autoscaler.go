@@ -40,6 +40,10 @@ type KnativeAutoscalerConfig struct {
 	ScaleToZeroGracePeriod time.Duration
 	TargetConcurrency      float64
 	MaxScaleUpRate         float64
+
+	// HPA Stuff
+	// TODO: get rid of all the Knative stuff.
+	HpaYaml string
 }
 
 type KnativeAutoscalerModel interface {
@@ -66,10 +70,11 @@ func NewAutoscaler(env simulator.Environment, startAt time.Time, cluster Cluster
 
 	autoscalerEntity := simulator.NewEntity("Autoscaler", "Autoscaler")
 
+	log.Printf("yaml: %v", config.HpaYaml)
 	err := env.Plugin().Event(startAt.UnixNano(), proto.EventType_CREATE, &skplug.Autoscaler{
 		// TODO: select type and plugin based on the scenario.
 		Type: "hpa.v2beta2.autoscaling.k8s.io",
-		Yaml: hpaYaml,
+		Yaml: config.HpaYaml,
 	})
 	if err != nil {
 		panic(err)
