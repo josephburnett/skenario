@@ -42,3 +42,5 @@ replace k8s.io/kubernetes => ../../kubernetes
 
 // TODO: replace this import with github.com/skenario/plugin
 replace github.com/josephburnett/sk-plugin => ../plugin
+
+replace github.com/hashicorp/go-plugin => ../../go-plugin

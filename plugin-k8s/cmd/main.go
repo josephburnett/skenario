@@ -4,7 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"sync"
+	"time"
 
 	"github.com/hashicorp/go-plugin"
 	k8splugin "github.com/josephburnett/sk-plugin-k8s/pkg/plugin"
@@ -158,7 +160,16 @@ func main() {
 	// flag.CommandLine.VisitAll(func(f *flag.Flag) {
 	// 	klog.Infof("%v=%v", f.Name, f.Value)
 	// })
-	plugin.Serve(&plugin.ServeConfig{
+
+	log.Printf("log works before plugin.Serve")
+	klog.Infof("klog works before plugin.Serve")
+	for i := 0; i < 10; i++ {
+		fmt.Fprintf(os.Stderr, "print to stderr works before plugin.Serve\n")
+	}
+	//fmt.Fprintf(os.Stdout, "print to stdout kills the plugin before plugin.Serve")
+	stderr := os.Stderr
+
+	go plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: skplug.Handshake,
 		Plugins: map[string]plugin.Plugin{
 			"autoscaler": &skplug.AutoscalerPlugin{Impl: newPluginServer()},
@@ -167,4 +178,18 @@ func main() {
 		// A non-nil value here enables gRPC serving for this plugin...
 		GRPCServer: plugin.DefaultGRPCServer,
 	})
+
+	time.Sleep(time.Second)
+
+	log.Printf("log works after plugin.Serve")
+	klog.Infof("klog does not work after plugin.Serve")
+	for i := 0; i < 10; i++ {
+		fmt.Fprintf(os.Stderr, "print to stderr does not work after plugin.Serve\n")
+	}
+	fmt.Fprintf(os.Stdout, "print to stdout does not work after plugin.Serve")
+	fmt.Fprintf(stderr, "print to retained stderr works after plugin.Serve\n")
+	klog.SetOutput(stderr)
+	klog.Infof("klog works after setting original stderr") // ?
+
+	select {}
 }

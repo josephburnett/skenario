@@ -22,7 +22,6 @@ require (
 	github.com/sclevine/agouti v3.0.0+incompatible
 	github.com/sclevine/spec v1.4.0
 	github.com/stretchr/testify v1.5.1
-	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	k8s.io/apimachinery v0.0.0-20190117220443-572dfc7bdfcb
 	k8s.io/client-go v10.0.0+incompatible
@@ -31,3 +30,5 @@ require (
 )
 
 replace github.com/josephburnett/sk-plugin => ../plugin
+
+replace github.com/hashicorp/go-plugin => ../../go-plugin
